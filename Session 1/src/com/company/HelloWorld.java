@@ -6,22 +6,6 @@ import java.util.Scanner;
 
 public class HelloWorld {
     public static void main(String[] args) {
-        Properties p = System.getProperties();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(os);
-        try {
-
-            dos.writeBytes("JSCHOOl1_COUNT=5\n");
-            byte[] buf;
-            buf = os.toByteArray();
-            os.close();
-            ByteArrayInputStream is = new ByteArrayInputStream(buf);
-            p.load(is);
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
         boolean isFound = false;
         for (String s : args) {
             if (s.matches("JSCHOOl1_COUNT=\\d*")) {
