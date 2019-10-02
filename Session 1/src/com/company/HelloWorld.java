@@ -1,11 +1,43 @@
 package com.company;
 
 import java.io.*;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
 public class HelloWorld {
     public static void main(String[] args) {
+        if(!MakeSetup(args));
+        {
+            return;
+        }
+    }
+    public static boolean MakeSetup(String[] args)
+    {
+        if(propertySearch(args))
+        {
+            return true;
+        }
+        if(propertySearch(System.getProperties()))
+        {
+            return true;
+        }
+        if(propertySearch(System.getenv()))
+        {
+            return true;
+        }
+            System.out.println("Настройки не заданы");
+            System.out.println();
+            System.out.println("Варианты задания настроек:");
+            System.out.println("1. Передайте аргументом настройку вида JSCHOOl1_COUNT=XXX, где XXX - желаемое количество выводов сообщения.");
+            System.out.println("2. Передайте системную настройку вида JSCHOOl1_COUNT=XXX, где XXX - желаемое количество выводов сообщения.");
+            System.out.println("3. Определите переменную окружения вида JSCHOOl1_COUNT=XXX, где XXX - желаемое количество выводов сообщения.");
+            System.out.println("4. Определите переменную окружения вида JSCHOOL1_PROPERTIES_FILE=XXX, где XXX это путь к существующему файлу, в котором записано желаемое число выводов.");
+        return false;
+    }
+
+    public static boolean propertySearch(String[] args)
+    {
         boolean isFound = false;
         for (String s : args) {
             if (s.matches("JSCHOOl1_COUNT=\\d*")) {
@@ -16,8 +48,12 @@ public class HelloWorld {
                 isFound = true;
             }
         }
-        if (!isFound) {
-            Properties properties = System.getProperties();
+        return isFound;
+    }
+
+    public static boolean propertySearch(Properties properties)
+    {
+        boolean isFound = false;
             if (properties.containsKey("JSCHOOl1_COUNT")) {
                 int count = Integer.parseInt(properties.getProperty("JSCHOOl1_COUNT"));
                 for (int i = 0; i < count; i++) {
@@ -25,10 +61,13 @@ public class HelloWorld {
                 }
                 isFound = true;
             }
-        }
-        if (!isFound) {
-            if (System.getenv().containsKey("JSCHOOl1_COUNT")) {
-                int count = Integer.parseInt(System.getenv().get("JSCHOOl1_COUNT"));
+        return isFound;
+    }
+
+    public static boolean propertySearch(Map<String,String> map) {
+        boolean isFound=false;
+            if (map.containsKey("JSCHOOl1_COUNT")) {
+                int count = Integer.parseInt(map.get("JSCHOOl1_COUNT"));
                 for (int i = 0; i < count; i++) {
                     System.out.println("Hello World!");
                 }
@@ -46,16 +85,7 @@ public class HelloWorld {
                 }
                 isFound = true;
             }
-        }
-        if (!isFound) {
-            System.out.println("Настройки не заданы");
-            System.out.println("");
-            System.out.println("Варианты задания настроек:");
-            System.out.println("1. Передайте аргументом настройку вида JSCHOOl1_COUNT=XXX, где XXX - желаемое количество выводов сообщения.");
-            System.out.println("2. Передайте системную настройку вида JSCHOOl1_COUNT=XXX, где XXX - желаемое количество выводов сообщения.");
-            System.out.println("3. Определите переменную окружения вида JSCHOOl1_COUNT=XXX, где XXX - желаемое количество выводов сообщения.");
-            System.out.println("4. Определите переменную окружения вида JSCHOOL1_PROPERTIES_FILE=XXX, где XXX это путь к существующему файлу, в котором записано желаемое число выводов.");
-
-        }
+        return isFound;
     }
+
 }
